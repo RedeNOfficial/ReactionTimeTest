@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Time Test</title>   
+     <link rel="stylesheet" href="style.css"> 
+    <script src="chart.js"></script>
+        
+</head>
+<body>
+    
+    <div class="main-wrapper">
+    <div class="main">
+        <button class="item" id="rbutton" style="background-color: aqua;" onclick="Click()">Click to start!</button>
+        <canvas class="item" id="chart" style="background-color: white;"></canvas>
+    </div>
+    </div>
+
+    <div class="measurements">
+        <div class="item">
+            <label class="lclass">MIN</label>
+            <br>
+            <label  class="lclass" id="min"></label>
+        </div>
+        <div class="item">
+            <label class="lclass">MAX</label>
+            <br>
+            <label  class="lclass" id="max"></label>
+        </div>
+        <div class="item">
+            <label class="lclass">AVG</label>
+            <br>
+            <label  class="lclass" id="avg"></label>
+        </div>
+        <div class="item">
+            <label class="lclass">MED</label>
+            <br>
+            <label  class="lclass" id="med"></label>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 RedeNOfficial | <a href="https://github.com/RedeNOfficial" target="_blank">GitHub</a> </p>
+    </footer>
+    
+    <script>
+        let l_min=document.getElementById("min")
+        let l_max=document.getElementById("max")
+        let l_avg=document.getElementById("avg")
+        let l_med=document.getElementById("med")
+
+        let n_o_clicks=0
+        let durations=[]
+        let min=null
+        let max=null
+        let avg=0
+        let med=null
+        let isOn=false
+        const ctx = document.getElementById('chart').getContext('2d'); 
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], 
+                datasets: [{
+                    backgroundColor: ["rgba(50,100,200,0.8)"], borderColor: "black", label:"Reaction times",
+                    data: durations
+                }]
+            }
+        });
+        let n_o=1
+        let timeoutId =null
+        let start =null
+        let end =null
+        function Click(){                   
+             
+            let r=document.getElementById("rbutton")
+            if (n_o_clicks===0){
+                            r.style.backgroundColor="red"
+                            r.innerText="Wait for green"
+                    n_o_clicks++
+                    const time=1500 + Math.random(2000)
+                    timeoutId = setTimeout(()=> {
+                        r.style.backgroundColor="green"
+                        r.innerText="Click now!"
+                        isOn=true
+                        start=performance.now()
+                    }, time);
+            }
+            else if(n_o_clicks ===1 && isOn===false){
+                clearTimeout(timeoutId);
+                r.innerHTML="Too fast"
+                n_o_clicks=0
+                 r.style.backgroundColor="aqua"
+            }            
+            else{
+                end=performance.now()
+                const duration=end-start
+                r.innerText="Time: "+duration.toFixed(2) +"ms"
+                n_o_clicks=0
+                 r.style.backgroundColor="aqua"
+                 isOn=false
+                 durations.push(duration)
+                 if(min==null){
+                    l_min.innerText=duration.toFixed(2)
+                    min=duration
+                    l_max.innerText=duration.toFixed(2)
+                    max=duration
+                 }
+                 else if(duration<min){
+                    l_min.innerText=duration.toFixed(2)
+                    min=duration
+                 }
+                 else if(duration>max){
+                    l_max.innerText=duration.toFixed(2)
+                    max=duration
+                 }
+
+                avg=Avg()
+                l_avg.innerText=avg.toFixed(2)
+
+                med=Med()
+                l_med.innerText=med.toFixed(2)
+                
+                chart.data.labels.push(n_o)
+                chart.update();
+                n_o++
+            }
+            
+        }
+
+        function Avg(){
+            let temp=0
+            for(let i=0; i<durations.length; i++){
+                
+                temp+=durations[i]
+            }
+            return temp/durations.length
+        }
+
+        function Med(){                      
+            const sorted = [...durations].sort((a, b) => a - b);
+            const mid = Math.floor(sorted.length / 2);
+
+            if (sorted.length % 2 !== 0) {
+                
+                return sorted[mid];
+            } else {                
+                return (sorted[mid - 1] + sorted[mid]) / 2;
+            }
+        }
+
+
+    </script>
+</body>
+</html>

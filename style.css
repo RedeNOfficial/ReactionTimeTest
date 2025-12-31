@@ -1,0 +1,102 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden; 
+  font-family: sans-serif;
+  background-color: blue;
+}
+
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+.main-wrapper {
+  flex: 1 0 auto;
+  display: flex;
+  width: 100%;
+}
+
+
+.main {
+  display: flex;
+  width: 100%;
+  align-items: stretch; 
+}
+
+
+.main .item {
+  flex: 1 1 50%;
+  max-width: 50%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+canvas.item {
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;  
+  
+}
+
+.measurements {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.measurements .item {
+  flex: 0 0 25%; 
+  max-width: 25%;
+  padding: 5px;
+}
+
+
+.lclass {
+  text-align: center;
+  background-color: gray;
+  color: white;
+  display: block;
+  padding: 10px 0;
+  margin-bottom: 2px;       
+  border: 2px solid black;  
+  border-radius: 4px;  
+}
+
+
+footer {
+  margin-top: auto; 
+  width: 100%;
+  text-align: center;
+  background-color: black;
+  color: aliceblue;
+  padding: 5px 0;
+}
+
+footer a {
+  color: white;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: none;
+}
+
+#rbutton{
+    color:aliceblue;
+    text-align: center;
+    text-size-adjust: calc();
+    font-size:xxx-large
+}
