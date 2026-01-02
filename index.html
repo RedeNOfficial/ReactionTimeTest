@@ -13,7 +13,10 @@
     <div class="main-wrapper">
     <div class="main">
         <button class="item" id="rbutton" style="background-color: aqua;" onclick="Click()">Click to start!</button>
-        <canvas class="item" id="chart" style="background-color: white;"></canvas>
+        <div class="item">
+            <canvas  id="chart" style="background-color: white;"></canvas>
+        </div>
+        
     </div>
     </div>
 
@@ -57,6 +60,12 @@
         let avg=0
         let med=null
         let isOn=false
+
+        const ranges = [
+            [800, 1500],
+            [2000,3500],
+            [4000,5500]
+        ];
         const ctx = document.getElementById('chart').getContext('2d'); 
         const chart = new Chart(ctx, {
             type: 'line',
@@ -79,8 +88,9 @@
                             r.style.backgroundColor="red"
                             r.innerText="Wait for green"
                     n_o_clicks++
-                    const time=1500 + Math.random(2000)
-                    timeoutId = setTimeout(()=> {
+                    const [min, max] = ranges[Math.floor(Math.random() * ranges.length)];
+                    const time = min + Math.random() * (max - min);
+                    timeoutId = setTimeout(()=> {                        
                         r.style.backgroundColor="green"
                         r.innerText="Click now!"
                         isOn=true
